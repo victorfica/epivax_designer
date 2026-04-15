@@ -21,15 +21,15 @@ def main():
     parser_asm = subparsers.add_parser("assemble", help="Generate combinatorial linkers")
     parser_asm.add_argument("--epitopes_csv", required=True, help="Input CSV with selected epitopes")
     parser_asm.add_argument("--output_fasta", required=True, help="Output constructs FASTA")
-    parser_asm.add_argument("--num_linkers", type=int, default=5000)
-    parser_asm.add_argument("--linker_len", type=int, default=4)
-    parser_asm.add_argument("--structure", default="LELE", help="e.g., LELE, ELE")
+    parser_asm.add_argument("-n","--num_linkers", type=int, default=5000)
+    parser_asm.add_argument("-ln","--linker_len", type=int, default=4)
+    parser_asm.add_argument("-s","--structure", default="LELE", help="e.g., LELE, ELE")
 
     # --- 2. PREDICT ---
     parser_pred = subparsers.add_parser("predict", help="Run DL cleavage prediction")
     parser_pred.add_argument("--fasta_constructs", required=True, help="Constructs FASTA")
-    parser_pred.add_argument("--checkpoint", default=None, help="Path to custom .ckpt. If omitted, uses default bundled model.")
     parser_pred.add_argument("--output_csv", required=True, help="Predictions output CSV")
+    parser_pred.add_argument("--checkpoint", default=None, help="Path to custom .ckpt. If omitted, uses default bundled model.")
 
     # --- 3. SCORE ---
     parser_score = subparsers.add_parser("score", help="Score and rank constructs")
@@ -94,7 +94,7 @@ def main():
     elif args.command == "assemble":
         build_multifasta(args.epitopes_csv, args.num_linkers, args.linker_len, args.structure, args.output_fasta)
     elif args.command == "predict":
-        run_cleavage_inference(args.fasta_constructs, args.checkpoint, args.output_csv)
+        run_cleavage_inference(args.fasta_constructs, args.output_csv, args.checkpoint, )
     elif args.command == "score":
         score_constructs(args.predictions_csv, args.fasta_constructs, args.output_csv)
     elif args.command == "graph-assemble":
