@@ -1,5 +1,5 @@
 import numpy as np
-from src.scoring import calculate_cleavage_score  # Import your function
+from src.scoring import calculate_cleavage_score, calculate_cleavage_score2
 
 
 def test_scoring_logic():
@@ -35,20 +35,3 @@ def test_scoring_logic():
 
 
 test_scoring_logic()
-
-## Testing Discriminatory Power (The Histogram Test)
-
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# Load your scored doublets from the combinatorial step
-df = pd.read_csv("results/Q76R36_scored_doublets.csv")
-
-plt.figure(figsize=(10, 5))
-plt.hist(df['score'], bins=50, color='skyblue', edgecolor='black')
-plt.title("Distribution of Processing Scores across 5,000 Linkers")
-plt.xlabel("Cleavage Score (S)")
-plt.ylabel("Frequency")
-plt.axvline(df['score'].quantile(0.95), color='red', linestyle='dashed', label='Top 5%')
-plt.legend()
-plt.show()
